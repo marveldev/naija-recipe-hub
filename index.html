@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7C1D3D">
+  <title>Naija Recipes • Nigerian Food Recipes and Shopping List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style type="text/tailwindcss" data-teda="tailwind-apply">
+    @layer components {
+      .btn-primary { @apply bg-[#7C1D3D] text-white font-semibold px-5 py-3 rounded-xl shadow-lg hover:bg-[#6A1834] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgba(124,29,61,0.28)] transition-all duration-300; }
+      .btn-secondary { @apply bg-white text-[#7C1D3D] border border-[#7C1D3D]/20 font-medium px-5 py-3 rounded-xl shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#FBCFE8] transition-all duration-300; }
+      .tag { @apply inline-flex items-center px-3 py-1 rounded-full bg-[#FCE7F1] text-[#7C1D3D] text-xs font-medium; }
+      .glass { @apply bg-white/70 backdrop-blur-md ring-1 ring-black/5 shadow-xl; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F7FAF8] text-[#12212B] antialiased">
+  <header class="w-full fixed top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 pt-4">
+      <div class="glass rounded-2xl flex items-center justify-between px-4 py-3">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="assets/logo.svg" alt="Naija Recipes" class="h-8 w-auto" />
+        </a>
+        <nav class="hidden sm:flex items-center gap-3">
+          <a href="#features" class="btn-secondary">Why Naija Recipes</a>
+          <a href="#dishes" class="btn-secondary">Signature Dishes</a>
+          <a href="app.html" class="btn-primary">Explore Recipes</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative">
+    <section class="min-h-screen flex flex-col justify-end sm:justify-center pb-10 sm:pb-0">
+      <div class="absolute inset-0 -z-10 overflow-hidden">
+        <div class="absolute -top-24 -right-16 w-[36rem] h-[36rem] rounded-full bg-[#FCE7F1] blur-3xl opacity-70"></div>
+        <div class="absolute -bottom-24 -left-16 w-[28rem] h-[28rem] rounded-full bg-[#FDF2F8] blur-3xl opacity-70"></div>
+        <div class="hidden sm:block absolute top-36 sm:top-44 right-6 sm:right-16 w-36 sm:w-48 opacity-90 anim-floaty">
+          <img src="assets/hero-pot.svg" alt="" class="w-full h-auto"/>
+        </div>
+        <div class="hidden sm:block absolute bottom-24 left-4 sm:left-20 w-24 sm:w-36 opacity-70 anim-floaty" style="animation-delay: 0.6s;">
+          <img src="assets/hero-pot.svg" alt="" class="w-full h-auto rotate-12"/>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto px-6 pt-28 sm:pt-40">
+        <p class="tag mb-6 w-max">Fresh from the Nigerian kitchen</p>
+        <h1 class="font-['Plus Jakarta Sans'] font-black text-5xl sm:text-7xl leading-tight tracking-tight">
+          Bold flavors, bright plates.<br/>
+          <span class="text-[#7C1D3D]">Cook Naija.</span>
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl max-w-2xl text-[#3a515f]">
+          Discover Nigerian classics with step-by-step guides. Plan your meals, and send ingredients straight to your shopping list.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="app.html" class="btn-primary glow-cta text-center">Start Cooking</a>
+          <a href="#features" class="btn-secondary text-center">See how it works</a>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto px-6 mt-12 sm:mt-20 grid grid-cols-1 sm:grid-cols-12 gap-4">
+        <div class="sm:col-span-5 glass rounded-3xl p-6 hover:translate-y-[-2px] transition-all duration-300">
+          <p class="mb-1"><span class="tag">Mobile friendly</span></p>
+          <h3 class="font-['Plus Jakarta Sans'] font-extrabold text-2xl mt-2">Navigate with ease</h3>
+          <p class="text-[#3a515f] mt-2">On mobile, the bottom bar keeps Home and Shopping List one tap away.</p>
+        </div>
+        <div class="sm:col-span-3 glass rounded-3xl p-6 hover:translate-y-[-2px] transition-all duration-300">
+          <p class="mb-1"><span class="tag">Plan faster</span></p>
+          <h3 class="font-['Plus Jakarta Sans'] font-extrabold text-2xl mt-2">Time & servings</h3>
+          <p class="text-[#3a515f] mt-2">Every recipe shows servings and cook time upfront so you can plan quickly.</p>
+        </div>
+        <div class="sm:col-span-4 glass rounded-3xl p-6 hover:translate-y-[-2px] transition-all duration-300">
+          <p class="mb-1"><span class="tag">Shopping list</span></p>
+          <h3 class="font-['Plus Jakarta Sans'] font-extrabold text-2xl mt-2">One-tap shopping list</h3>
+          <p class="text-[#3a515f] mt-2">Send all ingredients from a recipe to your Shopping List in one go.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="py-20">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid gap-8 sm:gap-10">
+          <div class="glass rounded-3xl p-8 sm:p-10">
+            <h2 class="font-['Plus Jakarta Sans'] font-extrabold text-3xl sm:text-4xl">Designed for cooks, not clicks</h2>
+            <p class="text-[#3a515f] mt-3 max-w-2xl">Beautiful steps with large, legible text and touch-friendly actions. Built to be fast and dependable on any device.</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <span class="tag">Responsive</span>
+              <span class="tag">Offline-friendly data</span>
+              <span class="tag">Local persistence</span>
+              <span class="tag">WCAG-focused</span>
+            </div>
+            <a href="app.html" class="btn-primary mt-8 inline-flex items-center">Explore Recipes</a>
+          </div>
+          <div id="dishes" class="rounded-3xl p-8 sm:p-10 bg-[#FFF1F5] ring-1 ring-black/5">
+            <h3 class="font-['Plus Jakarta Sans'] font-extrabold text-2xl">Signature dishes inside</h3>
+            <p class="text-[#3a515f] mt-2">Jollof Rice, Suya, Egusi Soup, Efo Riro, Puff-Puff, Moi Moi, and more.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.svg" alt="Naija Recipes" class="h-6 w-auto"/>
+        <span class="text-sm text-[#3a515f]">Cook boldly. Eat joyfully.</span>
+      </div>
+      <a href="app.html" class="btn-primary">Get Cooking</a>
+    </div>
+  </footer>
+
+  <script>
+    $(function(){
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) {
+        $('main').css({opacity:0, transform:'translateY(8px)'}).animate({opacity:1}, 400);
+      }
+      $('a[href^="#"]').on('click', function(e){
+        const id = $(this).attr('href');
+        if (id.length > 1) {
+          e.preventDefault();
+          const top = $(id).offset().top - 80;
+          $('html, body').animate({scrollTop: top}, 500);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

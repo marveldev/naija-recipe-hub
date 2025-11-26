@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="40" viewBox="0 0 180 40" role="img" aria-labelledby="logoTitle logoDesc" focusable="false">
+  <title id="logoTitle">Naija Recipes logo</title>
+  <desc id="logoDesc">Wine-colored circular badge with a cooking pot and steam, followed by the Naija Recipes wordmark.</desc>
+  <!-- Icon badge -->
+  <g>
+    <circle cx="20" cy="20" r="18" fill="#7C1D3D"/>
+    <g transform="translate(8,8)">
+      <!-- Pot body -->
+      <rect x="8" y="12" width="24" height="10" rx="2" fill="#FFFFFF"/>
+      <!-- Pot lid -->
+      <rect x="10" y="10" width="20" height="3" rx="1.5" fill="#FFFFFF"/>
+      <!-- Pot feet -->
+      <rect x="18" y="22" width="4" height="4" rx="1" fill="#FFFFFF"/>
+      <rect x="22" y="22" width="4" height="4" rx="1" fill="#FFFFFF"/>
+      <!-- Steam -->
+      <path d="M14 8c0-2 1.2-3 2-4m4 4c0-2 1.2-3 2-4" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+  <!-- Wordmark -->
+  <text x="48" y="26" font-family="Plus Jakarta Sans, Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="800" font-size="18" fill="#12212B">Naija Recipes</text>
+</svg>
