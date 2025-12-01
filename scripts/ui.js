@@ -54,8 +54,10 @@
   function RecipeCard({r, onOpen}){
     return h('article', {className: 'card overflow-hidden card-hover'},
       h('div', {className: 'p-5 flex flex-col gap-3 bg-white relative'},
-        h('div', {className: 'rounded-xl h-28 w-full', style: {backgroundColor: r.color}},
-          h('div', {className: 'h-full w-full flex items-center justify-center text-[42px] anim-floaty'}, '🍲')
+        h('div', {className: 'rounded-xl h-40 w-full overflow-hidden relative bg-gray-100', style: {backgroundColor: r.image ? '#f3f4f6' : r.color}},
+          r.image 
+            ? h('img', {src: r.image, alt: r.name, className: 'w-full h-full object-cover transition-transform duration-700 hover:scale-110'})
+            : h('div', {className: 'h-full w-full flex items-center justify-center text-[42px] anim-floaty'}, '🍲')
         ),
         h('div', {className: 'flex items-start justify-between gap-3'},
           h('h3', {className: "font-['Plus Jakarta Sans'] font-extrabold text-xl"}, r.name),
@@ -97,11 +99,13 @@
 
   function RecipeDetail({recipe, onBack, onAddAll}){
     return h('section', {className: 'anim-fade-up'},
-      h('div', {className: 'relative'},
-        // Immersive Header with Back Button and Hero
-        h('div', {className: 'relative h-64 sm:h-80 w-full rounded-b-[2.5rem] sm:rounded-3xl overflow-hidden shadow-lg transform translate-z-0', style: {backgroundColor: recipe.color}},
-          h('div', {className: 'absolute top-[-50%] right-[-10%] w-[80%] h-[150%] rounded-full bg-white/20 blur-3xl'}),
-          h('div', {className: 'absolute bottom-[-20%] left-[-10%] w-[60%] h-[100%] rounded-full bg-black/5 blur-2xl'}),
+        h('div', {className: 'relative h-64 sm:h-80 w-full rounded-b-[2.5rem] sm:rounded-3xl overflow-hidden shadow-lg transform translate-z-0 bg-gray-100'},
+          recipe.image 
+             ? h('img', {src: recipe.image, className: 'absolute inset-0 w-full h-full object-cover', alt: recipe.name})
+             : h('div', {className: 'absolute inset-0', style: {backgroundColor: recipe.color}},
+                 h('div', {className: 'absolute top-[-50%] right-[-10%] w-[80%] h-[150%] rounded-full bg-white/20 blur-3xl'}),
+                 h('div', {className: 'absolute bottom-[-20%] left-[-10%] w-[60%] h-[100%] rounded-full bg-black/5 blur-2xl'})
+               ),
           
           h('button', {
             onClick: onBack,
@@ -109,7 +113,7 @@
             'aria-label': 'Go back'
           }, h('svg', {width:24,height:24,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2.5,strokeLinecap:'round',strokeLinejoin:'round'}, h('path', {d:'M15 18l-6-6 6-6'}))),
           
-          h('div', {className: 'absolute inset-0 flex items-center justify-center'},
+          !recipe.image && h('div', {className: 'absolute inset-0 flex items-center justify-center'},
              h('div', {className: 'text-[96px] sm:text-[120px] filter drop-shadow-xl anim-floaty'}, '🥘')
           )
         ),
@@ -191,7 +195,6 @@
             )
           )
         )
-      )
     );
   }
 

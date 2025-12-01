@@ -44,6 +44,7 @@
       servings: 6,
       time: 60,
       color: '#FFF2E7',
+      image: 'assets/images/jollof-88b17c72.webp',
       ingredients: [
         { item: 'Parboiled rice', qty: 4, unit: 'cups' },
         { item: 'Tomatoes', qty: 6, unit: 'pcs' },
@@ -155,17 +156,115 @@
         'Add meats and seasonings; simmer.',
         'Stir in spinach and cook briefly until vibrant.'
       ]
-    }
+    },
+    {
+      id: 'abacha',
+      name: 'Abacha (African Salad)',
+      description: 'Cassava shreds tossed in spicy palm oil sauce with ugba and garden eggs.',
+      servings: 4,
+      time: 45,
+      color: '#FFF8E1',
+      image: 'assets/images/abacha.webp',
+      ingredients: [
+        { item: 'Abacha (dried cassava)', qty: 3, unit: 'cups' },
+        { item: 'Potash (akaun)', qty: 1, unit: 'tsp' },
+        { item: 'Ugba (oil bean)', qty: 1, unit: 'cup' },
+        { item: 'Crayfish (ground)', qty: 2, unit: 'tbsp' },
+        { item: 'Garden eggs', qty: 3, unit: 'pcs' },
+        { item: 'Ehuru (calabash nutmeg)', qty: 1, unit: 'tsp' },
+        { item: 'Fish (fried)', qty: 1, unit: 'pc' },
+        { item: 'Utazi leaves', qty: 1, unit: 'bunch' }
+      ],
+      steps: [
+        'Soak cassava in warm water until soft, then drain.',
+        'Dissolve potash in water; mix with palm oil until it turns yellow/orange.',
+        'Stir in ground spices, crayfish, and dissolved seasoning.',
+        'Toss the cassava and ugba in the sauce until well coated.',
+        'Garnish with chopped garden eggs, onions, utazi leaves, and fish.'
+      ]
+    },
+    {
+      id: 'achicha',
+      name: 'Achicha Ede',
+      description: 'Traditional Enugu dish made from dried cocoyam and pigeon peas.',
+      servings: 4,
+      time: 90,
+      color: '#F4EFEA',
+      image: 'assets/images/achicha-a0f351a6.webp',
+      ingredients: [
+        { item: 'Achicha (dried cocoyam)', qty: 2, unit: 'cups' },
+        { item: 'Fio-fio (pigeon peas)', qty: 1.5, unit: 'cups' },
+        { item: 'Palm oil', qty: 0.5, unit: 'cup' },
+        { item: 'Ukpaka', qty: 0.5, unit: 'cup' },
+        { item: 'Onions', qty: 2, unit: 'pcs' },
+        { item: 'Pepper', qty: 1, unit: 'tbsp' },
+        { item: 'Scent leaves', qty: 1, unit: 'handful' }
+      ],
+      steps: [
+        'Wash and cook pigeon peas until soft (pressure cooker recommended).',
+        'Soak achicha in water, wash thoroughly, and steam until soft.',
+        'In a pot, heat palm oil and sauté onions, pepper, and ukpaka.',
+        'Add the cooked pigeon peas and achicha to the sauce.',
+        'Stir well, adjust seasoning, add scent leaves, and simmer.'
+      ]
+    },
+    {
+      id: 'afang-soup',
+      name: 'Afang Soup',
+      description: 'Rich, leafy vegetable soup famous in Calabar, made with Afang and water leaves.',
+      servings: 6,
+      time: 60,
+      color: '#E8F5E9',
+      image: 'assets/images/afang-ed3423a9.webp',
+      ingredients: [
+        { item: 'Afang leaves (pounded)', qty: 3, unit: 'cups' },
+        { item: 'Water leaves (sliced)', qty: 5, unit: 'cups' },
+        { item: 'Palm oil', qty: 1, unit: 'cup' },
+        { item: 'Beef', qty: 500, unit: 'g' },
+        { item: 'Stock fish', qty: 1, unit: 'pc' },
+        { item: 'Periwinkles', qty: 1, unit: 'cup' },
+        { item: 'Crayfish', qty: 3, unit: 'tbsp' }
+      ],
+      steps: [
+        'Boil beef, stock fish, and seasoning until tender.',
+        'Add palm oil, crayfish, and pepper to the boiling stock.',
+        'Add periwinkles and sliced water leaves; cook for 3 minutes.',
+        'Stir in the pounded Afang leaves and simmer for 2 minutes.',
+        'Serve hot with fufu, eba, or pounded yam.'
+      ]
+    },
+    {
+      id: 'akara-custard',
+      name: 'Akara & Custard',
+      description: 'Golden fried bean cakes paired with warm, creamy custard.',
+      servings: 4,
+      time: 45,
+      color: '#FFF3E0',
+      image: 'assets/images/akara-with-custard-492a1dd0.webp',
+      ingredients: [
+        { item: 'Beans (peeled)', qty: 2, unit: 'cups' },
+        { item: 'Scotch bonnet peppers', qty: 3, unit: 'pcs' },
+        { item: 'Onions', qty: 1, unit: 'pc' },
+        { item: 'Vegetable oil', qty: 1, unit: 'bottle' },
+        { item: 'Custard powder', qty: 0.5, unit: 'cup' },
+        { item: 'Milk', qty: 0.5, unit: 'cup' },
+        { item: 'Sugar', qty: 1, unit: 'to taste' }
+      ],
+      steps: [
+        'Blend peeled beans with onions and peppers using very little water.',
+        'Whisk the batter vigorously until light and fluffy.',
+        'Heat oil and fry spoonfuls of batter until golden brown.',
+        'Mix custard powder with water, pour into boiling water to thicken.',
+        'Serve crispy Akara with the hot, milky custard.'
+      ]
+    },
   ];
 
   window.App.Data = {
     ensureSeeded: function(){
-      const have = window.App.Storage.load('recipes', null);
-      if (!have || !Array.isArray(have) || have.length === 0) {
-        window.App.Storage.save('recipes', seeds);
-        return seeds;
-      }
-      return have;
+      // Always sync latest seeds to storage since recipes are not editable by user
+      window.App.Storage.save('recipes', seeds);
+      return seeds;
     },
     all: function(){ return window.App.Storage.load('recipes', []) || []; },
     byId: function(id){ return (window.App.Storage.load('recipes', []) || []).find(r => r.id === id) || null; }
