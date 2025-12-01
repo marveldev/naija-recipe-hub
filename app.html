@@ -17,6 +17,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="scripts/helpers.js"></script>
   <script src="scripts/ai.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="scripts/ui.js"></script>
   <script src="scripts/main.js"></script>
   <!-- Required order ends -->
@@ -26,7 +27,7 @@
       .btn-secondary { @apply bg-white text-[#7C1D3D] border border-[#7C1D3D]/20 font-medium px-4 py-3 rounded-xl shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#FBCFE8] transition-all duration-300; }
       .chip { @apply inline-flex items-center px-3 py-1 rounded-full bg-[#FCE7F1] text-[#7C1D3D] text-xs font-medium; }
       .card { @apply bg-white rounded-2xl ring-1 ring-black/5 shadow-sm hover:shadow-xl transition-all duration-300; }
-      .field { @apply w-full border border-black/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#FBCFE8]; }
+      .field { @apply w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-base focus:border-[#7C1D3D] focus:ring-4 focus:ring-[#7C1D3D]/10 outline-none placeholder:text-gray-400 transition-all; }
     }
   </style>
 </head>
@@ -56,11 +57,11 @@
     <div class="flex items-center justify-around h-[72px]">
       <button class="mobile-tab flex flex-col items-center justify-center gap-1 w-full h-full text-[#3a515f] data-[active=true]:text-[#7C1D3D]" data-target="home">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+        <span class="text-[10px] font-bold uppercase tracking-wider">Recipes</span>
+      </button>
       <button class="mobile-tab flex flex-col items-center justify-center gap-1 w-full h-full text-[#3a515f] data-[active=true]:text-[#7C1D3D]" data-target="chef">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><path d="M6 17h12"/></svg>
         <span class="text-[10px] font-bold uppercase tracking-wider">Chef</span>
-      </button>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Recipes</span>
       </button>
       <button class="mobile-tab flex flex-col items-center justify-center gap-1 w-full h-full text-[#3a515f] data-[active=true]:text-[#7C1D3D]" data-target="shopping">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1.2 12.2A1 1 0 0 1 15.8 20H8.2a1 1 0 0 1-1-.8L6 7zm3-3h6v3H9V4z"/></svg>
