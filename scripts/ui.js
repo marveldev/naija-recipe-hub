@@ -31,6 +31,18 @@
   function Badge({children}){
     return h('span', {className: 'chip'}, children);
   }
+  function Modal({isOpen, onClose, title, children, footer}){
+    if(!isOpen) return null;
+    const modal = h('div', {className: 'fixed inset-0 flex items-center justify-center p-4', style: {zIndex: 200}},
+      h('div', {className: 'absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity', onClick: onClose}),
+      h('div', {className: 'relative bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 ring-1 ring-black/5 anim-fade-up'},
+        title && h('h3', {className: "font-['Plus Jakarta Sans'] font-bold text-lg text-[#12212B] mb-2"}, title),
+        h('div', {className: "text-[#3a515f] text-sm leading-relaxed mb-6"}, children),
+        footer && h('div', {className: "flex items-center justify-end gap-3"}, footer)
+      )
+    );
+    return ReactDOM.createPortal(modal, document.body);
+  }
 
   function Header({onNav, route}){
     return h('div', {className: 'flex items-center gap-3 md:hidden mb-3'},
@@ -190,6 +202,7 @@
     const [unit, setUnit] = useState('');
     const [filter, setFilter] = useState('all');
     const [error, setError] = useState(null);
+    const [showClearAllConfirm, setShowClearAllConfirm] = useState(false);
     const nameRef = React.useRef(null);
 
     useEffect(()=>{ window.App.Storage.save('shopping', items); }, [items]);
@@ -212,8 +225,9 @@
     }
     function toggle(id){ setItems(prev => prev.map(it => it.id===id ? {...it, done: !it.done} : it)); }
     function remove(id){ setItems(prev => prev.filter(it => it.id!==id)); }
+    function clearAll(){ if(items.length > 0) setShowClearAllConfirm(true); }
+    function confirmClearAll(){ setItems([]); setShowClearAllConfirm(false); }
     function clearBought(){ setItems(prev => prev.filter(it => !it.done)); }
-    function clearAll(){ if(items.length > 0 && window.confirm('Remove all items from your list?')) setItems([]); }
 
     const bought = items.filter(it=>it.done).length;
     const remaining = items.length - bought;
@@ -234,7 +248,11 @@
               h('span', {className:'chip'}, `${items.length} total`)
             )
           ),
-          h('div', {className:'flex items-center gap-2 w-full sm:w-auto'},
+          h('div', {className:'flex flex-col sm:flex-row items-end sm:items-center gap-3 w-full sm:w-auto'},
+            items.length > 0 && h('div', {className:'flex items-center gap-2'},
+              bought > 0 && h('button', {type:'button', className:'text-xs font-bold text-[#7C1D3D] bg-[#FCE7F1] hover:bg-[#FBCFE8] px-3 py-1.5 rounded-lg transition-colors', onClick:clearBought}, 'Clear Bought'),
+              h('button', {type:'button', className:'text-xs font-medium text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors', onClick:clearAll}, 'Clear All')
+            ),
             h('div', {className:'hidden sm:flex rounded-lg p-1 bg-white/70 ring-1 ring-black/5'},
               h('button', {className:'px-3 py-1.5 rounded-md text-sm ' + (filter==='all' ? 'bg-[#7C1D3D] text-white shadow' : 'text-[#3a515f] hover:bg-black/5'), onClick:()=>setFilter('all')}, 'All'),
               h('button', {className:'px-3 py-1.5 rounded-md text-sm ' + (filter==='active' ? 'bg-[#7C1D3D] text-white shadow' : 'text-[#3a515f] hover:bg-black/5'), onClick:()=>setFilter('active')}, 'Active'),
@@ -277,11 +295,26 @@
             h('p', {className: (it.done ? 'line-through text-[#3a515f]' : 'text-[#12212B]') + ' font-medium'}, it.name),
             detail ? h('p', {className:'text-xs text-[#3a515f]'}, detail) : null
           ),
-          h('button', {className:'btn-secondary !px-3 !py-2', onClick:()=>remove(it.id), 'aria-label':'Remove'}, h(Icon, {name:'trash'}))
+          h('button', {
+            className: 'flex-none w-9 h-9 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors',
+            onClick: () => remove(it.id),
+            'aria-label': 'Delete item',
+            title: 'Delete item'
+          }, h(Icon, {name:'trash'}))
         );
-      }))
+      })),
+      h(Modal, {
+        isOpen: showClearAllConfirm,
+        onClose: () => setShowClearAllConfirm(false),
+        title: 'Clear Shopping List',
+        footer: [
+          h('button', {key:'cancel', className: 'btn-secondary py-2 px-4 text-sm', onClick: () => setShowClearAllConfirm(false)}, 'Cancel'),
+          h('button', {key:'confirm', className: 'btn-primary py-2 px-4 text-sm !bg-red-600 hover:!bg-red-700 active:scale-[0.98]', onClick: confirmClearAll}, 'Clear All')
+        ]
+      }, 'Are you sure you want to remove all items from your shopping list? This action cannot be undone.')
     );
   }
+
   function ChefAssistant(){
     const [messages, setMessages] = useState(() => window.App.Storage.load('chef_history', []));
     const [input, setInput] = useState('');
@@ -290,6 +323,7 @@
     const [initializing, setInitializing] = useState(false);
     const [ready, setReady] = useState(window.AppLLM && window.AppLLM.ready);
     const [error, setError] = useState(null);
+    const [showClearConfirm, setShowClearConfirm] = useState(false);
     const chatEndRef = React.useRef(null);
 
     useEffect(() => {
@@ -338,7 +372,9 @@
           }
         });
       } catch (err) {
-        setError(err.message);
+        console.error(err);
+        setError('Connection interrupted. Please try again.');
+        setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, content: 'Sorry, I encountered an error. Please try again.' } : m));
       } finally {
         setLoading(false);
       }
@@ -350,7 +386,12 @@
     }
 
     function clearChat() {
-       if(window.confirm('Clear conversation history?')) setMessages([]);
+       setShowClearConfirm(true);
+    }
+
+    function confirmClear() {
+       setMessages([]);
+       setShowClearConfirm(false);
     }
     
     const suggestions = [
@@ -361,7 +402,6 @@
     ];
 
     return h('section', { className: 'anim-fade-up h-[calc(100vh-200px)] min-h-[500px] flex flex-col' },
-      // Header
       h('div', { className: 'flex-none mb-4' },
         h('div', { className: 'bg-white rounded-2xl p-4 sm:p-5 shadow-sm ring-1 ring-black/5 flex items-center justify-between' },
            h('div', { className: 'flex items-center gap-3 sm:gap-4' },
@@ -375,12 +415,9 @@
         )
       ),
 
-      // Chat Content
       h('div', { className: 'flex-1 overflow-y-auto min-h-0 space-y-6 pb-4 px-1' },
-         // Error
          error && h('div', { className: 'bg-red-50 text-red-800 p-4 rounded-xl border border-red-200 text-sm' }, h('strong', null, 'Error: '), error),
 
-         // Loading State
          (!ready && !error) && h('div', { className: 'flex flex-col items-center justify-center h-full text-center space-y-6 p-8' },
             h('div', { className: 'relative w-16 h-16 sm:w-20 sm:h-20' },
               h('div', { className: 'absolute inset-0 rounded-full border-4 border-[#FCE7F1]' }),
@@ -397,7 +434,6 @@
             )
          ),
          
-         // Empty State
          (ready && messages.length === 0) && h('div', { className: 'flex flex-col items-center justify-center h-full space-y-8 p-4 anim-fade-up' },
             h('div', { className: 'w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#FCE7F1] to-white shadow-inner flex items-center justify-center text-4xl mb-2' }, '🍳'),
             h('div', { className: 'text-center space-y-2 max-w-md' },
@@ -415,7 +451,6 @@
             )
          ),
 
-         // Messages
          ready && messages.length > 0 && h('div', { className: 'space-y-6' },
             messages.map(msg => {
               const isAi = msg.role === 'assistant';
@@ -432,15 +467,14 @@
          )
       ),
 
-      // Input
       ready && h('div', { className: 'flex-none mt-2' },
          h('form', { onSubmit: (e)=>handleSend(e), className: 'relative bg-white rounded-2xl shadow-lg ring-1 ring-black/5 p-2 flex items-end gap-2' },
             h('textarea', {
               value: input,
               onChange: e => setInput(e.target.value),
-              placeholder: 'Type your ingredients...',
               className: 'w-full bg-transparent border-0 focus:ring-0 text-[#12212B] placeholder:text-gray-400 py-3 pl-3 resize-none max-h-32 min-h-[52px]',
               rows: 1,
+              placeholder: 'Type your ingredients...',
               onKeyDown: e => { 
                 if(e.key === 'Enter' && !e.shiftKey) { 
                   e.preventDefault(); 
@@ -454,7 +488,17 @@
               ? h('button', { type: 'button', onClick: handleStop, className: 'flex-none w-10 h-10 rounded-xl bg-gray-100 text-[#3a515f] hover:bg-gray-200 flex items-center justify-center mb-1 mr-1 transition-colors', title: 'Stop' }, h(Icon, { name: 'stop' }))
               : h('button', { type: 'submit', disabled: !input.trim(), className: 'flex-none w-10 h-10 rounded-xl bg-[#7C1D3D] text-white hover:bg-[#6A1834] disabled:opacity-50 disabled:hover:bg-[#7C1D3D] flex items-center justify-center mb-1 mr-1 shadow-md transition-all' }, h(Icon, { name: 'send' }))
          )
-      )
+      ),
+
+      h(Modal, {
+        isOpen: showClearConfirm,
+        onClose: () => setShowClearConfirm(false),
+        title: 'Clear Conversation',
+        footer: [
+          h('button', {key:'cancel', className: 'btn-secondary py-2 px-4 text-sm', onClick: () => setShowClearConfirm(false)}, 'Cancel'),
+          h('button', {key:'confirm', className: 'btn-primary py-2 px-4 text-sm !bg-red-600 hover:!bg-red-700 active:scale-[0.98]', onClick: confirmClear}, 'Clear All')
+        ]
+      }, 'Are you sure you want to clear the conversation history? This action cannot be undone.')
     );
   }
   function AppShell(){
